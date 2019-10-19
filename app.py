@@ -108,6 +108,9 @@ class App:
 def start():
     root = tk.Tk()
     app = App(root)
+    root.title("Bear's space app")
+    root.update()
     root.mainloop()
+
 
 start()
