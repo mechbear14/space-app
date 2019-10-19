@@ -100,5 +100,3 @@ def start():
 
 
 start()
-
-# len(list(filter(lambda x: x.type == "buoy", data)) != 0
