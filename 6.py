@@ -9,7 +9,7 @@ def register():
     global register_screen
     register_screen = Toplevel(main_screen)
     register_screen.title("Register")
-    register_screen.geometry("300x250")
+    register_screen.geometry("250x200")
  
     global username
     global password
@@ -18,7 +18,7 @@ def register():
     username = StringVar()
     password = StringVar()
  
-    Label(register_screen, text="Please enter details below", bg="blue").pack()
+    Label(register_screen, text="Please enter details below")
     Label(register_screen, text="").pack()
     username_lable = Label(register_screen, text="Username * ")
     username_lable.pack()
@@ -29,7 +29,7 @@ def register():
     password_entry = Entry(register_screen, textvariable=password, show='*')
     password_entry.pack()
     Label(register_screen, text="").pack()
-    Button(register_screen, text="Register", width=10, height=1, bg="blue", command = register_user).pack()
+    Button(register_screen, text="Register", width=10, height=1, command = register_user).pack()
  
  
 # Designing window for login 
@@ -38,7 +38,7 @@ def login():
     global login_screen
     login_screen = Toplevel(main_screen)
     login_screen.title("Login")
-    login_screen.geometry("300x250")
+    login_screen.geometry("250x220")
     Label(login_screen, text="Please enter details below to login").pack()
     Label(login_screen, text="").pack()
  
@@ -148,9 +148,9 @@ def delete_user_not_found_screen():
 def main_account_screen():
     global main_screen
     main_screen = Tk()
-    main_screen.geometry("300x250")
+    main_screen.geometry("290x200")
     main_screen.title("Account Login")
-    Label(text="Select Your Choice", bg="blue", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(text="Select Your Choice", width="300", height="2", font=("Calibri", 13)).pack()
     Label(text="").pack()
     Button(text="Login", height="2", width="30", command = login).pack()
     Label(text="").pack()
