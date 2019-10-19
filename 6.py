@@ -139,6 +139,7 @@ def destroy_all():
     for widget in main_screen.winfo_children():
         if isinstance(widget, Toplevel):
             widget.destroy()
+    main_screen.destroy()
  
 def delete_login_success():
     login_success_screen.destroy()
