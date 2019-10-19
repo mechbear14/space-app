@@ -1,0 +1,6 @@
+venv
+.idea
+*.svg
+*.png
+2.py
+*.gif
