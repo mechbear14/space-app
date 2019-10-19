@@ -103,15 +103,23 @@ def login_verify():
 # Designing popup for login success
  
 def login_sucess():
-    app.start()    
+    #login_screen.destroy()
+    #register_screen.destroy()    
+    #main_screen.destroy()
+    #register_user_screen.destroy()
+    #password_not_recog_screen.destroy()
+    #user_not_found_screen.destroy()
+    destroy_all()
+    app.start()
+ 
  
 # Designing popup for login invalid password
  
 def password_not_recognised():
     global password_not_recog_screen
     password_not_recog_screen = Toplevel(login_screen)
-    password_not_recog_screen.title("Success")
-    password_not_recog_screen.geometry("150x100")
+    password_not_recog_screen.title("Error")
+    password_not_recog_screen.geometry("130x60")
     Label(password_not_recog_screen, text="Invalid Password ").pack()
     Button(password_not_recog_screen, text="OK", command=delete_password_not_recognised).pack()
  
@@ -120,12 +128,17 @@ def password_not_recognised():
 def user_not_found():
     global user_not_found_screen
     user_not_found_screen = Toplevel(login_screen)
-    user_not_found_screen.title("Success")
-    user_not_found_screen.geometry("150x100")
+    user_not_found_screen.title("Error")
+    user_not_found_screen.geometry("130x60")
     Label(user_not_found_screen, text="User Not Found").pack()
     Button(user_not_found_screen, text="OK", command=delete_user_not_found_screen).pack()
  
 # Deleting popups
+
+def destroy_all():
+    for widget in main_screen.winfo_children():
+        if isinstance(widget, Toplevel):
+            widget.destroy()
  
 def delete_login_success():
     login_success_screen.destroy()
