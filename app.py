@@ -1,4 +1,5 @@
 import tkinter as tk
+from element import Map
 
 
 class Display:
@@ -12,50 +13,35 @@ class Display:
         self.drawing = []
         self.dragging = False
 
+        self.map = Map("map.gif", self.canvas)
+
         self.canvas.bind("<Button-1>", self.on_mouse_down)
         self.canvas.bind("<Button-4>", self.on_scroll_up)
         self.canvas.bind("<Button-5>", self.on_scroll_down)
 
         # Test
-        self.circle = self.canvas.create_oval((460, 250, 500, 290), fill="yellow")
+        # self.circle = self.canvas.create_oval((460, 250, 500, 290), fill="yellow")
 
     def on_mouse_down(self, event):
         self.dragging = True
         self.canvas.bind("<B1-Motion>", self.on_mouse_move)
         self.canvas.bind("<ButtonRelease-1>", self.on_mouse_up)
-        self.current_location = [event.x, event.y]
+        self.map.mark_start(event.x, event.y)
 
     def on_mouse_move(self, event):
-        self.temp_translate = [event.x - self.current_location[0],
-                               event.y - self.current_location[1]]
-        self.canvas.coords(self.circle, (460 + self.translate[0] + self.temp_translate[0],
-                                         250 + self.translate[1] + self.temp_translate[1],
-                                         500 + self.translate[0] + self.temp_translate[0],
-                                         290 + self.translate[1] + self.temp_translate[1]))
+        self.map.move(event.x, event.y)
+        pass
 
     def on_mouse_up(self, event):
-        self.translate = [self.translate[0] + self.temp_translate[0],
-                          self.translate[1] + self.temp_translate[1]]
-        self.temp_translate = [0, 0]
-        self.current_location = [0, 0]
+        self.map.end_drag()
         self.canvas.unbind("<B1-Motion>")
         self.canvas.unbind("<ButtonRelease-1>")
 
     def on_scroll_down(self, event):
-        self.scale -= 0.1
-        factor = self.scale / (self.scale + 0.1)
-        self.canvas.scale(self.circle,
-                          event.x,
-                          event.y,
-                          factor, factor)
+        self.map.scale_down(event)
 
     def on_scroll_up(self, event):
-        self.scale += 0.1
-        factor = self.scale / (self.scale - 0.1)
-        self.canvas.scale(self.circle,
-                          event.x,
-                          event.y,
-                          factor, factor)
+        self.map.scale_up(event)
 
 
 class Filter:
