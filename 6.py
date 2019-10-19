@@ -1,6 +1,7 @@
 #import modules
  
 from tkinter import *
+import app.py
 import os
  
 # Designing window for registration
@@ -103,11 +104,7 @@ def login_verify():
  
 def login_sucess():
     global login_success_screen
-    login_success_screen = Toplevel(login_screen)
-    login_success_screen.title("Success")
-    login_success_screen.geometry("150x100")
-    Label(login_success_screen, text="Login Success").pack()
-    Button(login_success_screen, text="OK", command=delete_login_success).pack()
+    ##############################################################################################
  
 # Designing popup for login invalid password
  
