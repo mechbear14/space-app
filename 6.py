@@ -1,7 +1,7 @@
 #import modules
  
 from tkinter import *
-import app.py
+import app
 import os
  
 # Designing window for registration
@@ -103,8 +103,7 @@ def login_verify():
 # Designing popup for login success
  
 def login_sucess():
-    global login_success_screen
-    ##############################################################################################
+    app.start()    
  
 # Designing popup for login invalid password
  
