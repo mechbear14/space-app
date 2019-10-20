@@ -72,6 +72,7 @@ class Filter:
     def update_buoy(self):
         self.map_object.set_buoys(self.canvas.canvas, self.map_object.show_buoys.get(), self.canvas.translate)
 
+<<<<<<< HEAD
 class App:
     def __init__(self, master, data):
         self.left_pane = Frame(master)
@@ -84,10 +85,15 @@ class App:
         self.filters.set_control_canvas(self.canvas)
 
 def start():   
+=======
+
+def start():
+>>>>>>> 904f96e146e8bb1a63cffa610f9b69362718e7a6
     root = Tk()
     r = requests.get("https://ndbc.noaa.gov/activestations.xml")
     soup = BeautifulSoup(r.text, "lxml")
     buoy_soup = soup.find_all("station")
+<<<<<<< HEAD
     global map_object
     map_object = Map("map1.png", "map2.png", buoy_soup)
     app = App(root, map_object)
@@ -95,3 +101,25 @@ def start():
 
 if __name__ =="__main__":
     start()
+=======
+    map_object = Map("map1.png", "map2.png", buoy_soup)
+
+    class App:
+        def __init__(self, master, data):
+            self.left_pane = Frame(master)
+            self.left_pane.pack(side=LEFT)
+            self.canvas_pane = Frame(master)
+            self.canvas_pane.pack(side=LEFT)
+
+            self.filters = Filter(self.left_pane, map_object)
+            self.canvas = Display(self.canvas_pane, data)
+            self.filters.set_control_canvas(self.canvas)
+
+    app = App(root, map_object)
+    root.title("Bear's space app")
+    root.resizable(False, False)
+    root.mainloop()
+
+if __name__ =="__main__":
+    start()
+>>>>>>> 904f96e146e8bb1a63cffa610f9b69362718e7a6

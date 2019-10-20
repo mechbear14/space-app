@@ -4,6 +4,10 @@ from PIL import Image
 import components
 import tkinter
 import start
+<<<<<<< HEAD
+=======
+import components
+>>>>>>> 904f96e146e8bb1a63cffa610f9b69362718e7a6
 import sys
 
 
