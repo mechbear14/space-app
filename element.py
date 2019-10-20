@@ -11,7 +11,6 @@ class Map:
         self.canvas = canvas
         self.w, self.h = self.canvas.winfo_width(), canvas.winfo_height()
         self.image_ref = canvas.create_image((self.w / 2, self.h / 2), image=self.image_tk)
-        # self.canvas.scale(self.image_ref, self.w / 2, self.h / 2, 3, 3)
 
         self.translate = [0, 0]
         self.current_location = [0, 0]
