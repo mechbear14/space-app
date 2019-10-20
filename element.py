@@ -27,13 +27,13 @@ class BuoyMark:
         self.lon = float(xml.get("lon"))
         self.owner = xml.get("owner")
         self.name = xml.get("name")
-        self.x = ((self.lon + 180) / 360 * map_image.width) % map_image.width
-        self.y = ((90 - self.lat) / 180 * map_image.height + 66.7) % map_image.height
+        self.x = ((self.lon + 180) / 360 * map_image.width) % map_image.width - map_image.width / 2
+        self.y = ((90 - self.lat) / 180 * map_image.height + 66.7) % map_image.height - map_image.height / 2
         self.scaled_x = self.x
         self.scaled_y = self.y
 
     def render(self, canvas, ref, x, y, scale):
-        canvas.scale(ref, self.x + x, self.y + y, scale, scale)
+        canvas.scale(ref, x, y, scale, scale)
 
 
 class Map:
@@ -47,15 +47,15 @@ class Map:
         self.buoys_ref = []
 
     def render(self, canvas):
-        global_offset_x = self.background_map.width / 2
-        global_offset_y = self.background_map.height / 2
-        self.image_ref = canvas.create_image((global_offset_x, global_offset_y), image=self.background_map.image_tk)
+        # global_offset_x = self.background_map.width / 2
+        # global_offset_y = self.background_map.height / 2
+        self.image_ref = canvas.create_image((0, 0), image=self.background_map.image_tk)
         # for b in self.buoys:
         #     self.buoys_ref.append(canvas.create_oval((b.x - 5, b.y - 5, b.x + 5, b.y + 5), fill="yellow"))
         # print(self.buoys_ref)
 
     def move(self, canvas, dx, dy):
-        canvas.coords(self.image_ref, (self.background_map.width / 2 + dx, self.background_map.height / 2 + dy))
+        canvas.coords(self.image_ref, (dx, dy))
         for id, b in enumerate(self.buoys_ref):
             canvas.coords(b, (self.buoys[id].scaled_x - 5 + dx, self.buoys[id].scaled_y - 5 + dy, self.buoys[id].scaled_x + 5 + dx, self.buoys[id].scaled_y + 5 + dy))
 
@@ -63,13 +63,20 @@ class Map:
         self.background_map.resize(s)
         self.route_map.resize(s)
         canvas.itemconfig(self.image_ref, image=self.background_map.image_tk)
-        for id, b in enumerate(self.buoys_ref):
-            x = self.buoys[id].x
-            y = self.buoys[id].y
-            self.buoys[id].scaled_x = s * (x - mx) + mx
-            self.buoys[id].scaled_y = s * (y - my) + my
-            canvas.coords(self.buoys_ref[id], (self.buoys[id].scaled_x - 5, self.buoys[id].scaled_y - 5,
-                                               self.buoys[id].scaled_x + 5, self.buoys[id].scaled_y + 5))
+        if len(self.buoys_ref) > 0:
+            for id, b in enumerate(self.buoys_ref):
+                x = self.buoys[id].x
+                y = self.buoys[id].y
+                self.buoys[id].scaled_x = s * x
+                self.buoys[id].scaled_y = s * y
+                canvas.coords(self.buoys_ref[id], (self.buoys[id].scaled_x - 5 + mx, self.buoys[id].scaled_y - 5 + my,
+                                                   self.buoys[id].scaled_x + 5 + mx, self.buoys[id].scaled_y + 5 + my))
+        else:
+            for id, b in enumerate(self.buoys):
+                x = self.buoys[id].x
+                y = self.buoys[id].y
+                self.buoys[id].scaled_x = s * x
+                self.buoys[id].scaled_y = s * y
 
     def set_image(self, image, canvas):
         if image == "route":
@@ -77,10 +84,13 @@ class Map:
         elif image == "map":
             canvas.itemconfig(self.image_ref, image=self.background_map.image_tk)
 
-    def set_buoys(self, canvas, show):
+    def set_buoys(self, canvas, show, translate):
         if show:
             for b in self.buoys:
-                self.buoys_ref.append(canvas.create_oval((b.x - 5, b.y - 5, b.x + 5, b.y + 5), fill="yellow"))
+                self.buoys_ref.append(canvas.create_oval((b.scaled_x + translate[0] - 5,
+                                                          b.scaled_y + translate[1] - 5,
+                                                          b.scaled_x + translate[0] + 5,
+                                                          b.scaled_y + translate[1] + 5), fill="yellow"))
         else:
             for b in self.buoys_ref:
                 canvas.delete(b)

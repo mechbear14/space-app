@@ -42,11 +42,11 @@ class Display:
 
     def on_scroll_down(self, event):
         self.scale -= 1
-        self.map_object.scale(self.canvas, event.x, event.y, self.scale / 10)
+        self.map_object.scale(self.canvas, self.translate[0], self.translate[1], self.scale / 10)
 
     def on_scroll_up(self, event):
         self.scale += 1
-        self.map_object.scale(self.canvas, event.x, event.y, self.scale / 10)
+        self.map_object.scale(self.canvas, self.translate[0], self.translate[1], self.scale / 10)
 
 
 class Filter:
@@ -54,23 +54,23 @@ class Filter:
         self.canvas = None
         self.map_object = map_object
         self.draw_freq_checkbox = Checkbutton(master, anchor=W, text="Frequent routes",
-                                              variable=self.map_object.show_route, command=self.update)
+                                              variable=self.map_object.show_route, command=self.update_map)
         self.draw_buoys_checkbox = Checkbutton(master, anchor=W, text="Buoys",
-                                               variable=self.map_object.show_buoys, command=self.update)
+                                               variable=self.map_object.show_buoys, command=self.update_buoy)
         self.draw_freq_checkbox.pack(fill=X)
         self.draw_buoys_checkbox.pack(fill=X)
 
     def set_control_canvas(self, canvas):
         self.canvas = canvas
 
-    def update(self):
+    def update_map(self):
         if self.map_object.show_route.get():
-            self.map_object.set_image("route", self.canvas)
+            self.map_object.set_image("route", self.canvas.canvas)
         else:
-            self.map_object.set_image("map", self.canvas)
+            self.map_object.set_image("map", self.canvas.canvas)
 
-        self.map_object.set_buoys(self.canvas, self.map_object.show_buoys.get())
-        # self.map_object.hide_buoys(self.canvas, self.map_object.show_buoys.get())
+    def update_buoy(self):
+        self.map_object.set_buoys(self.canvas.canvas, self.map_object.show_buoys.get(), self.canvas.translate)
 
 
 root = Tk()
@@ -89,7 +89,7 @@ class App:
 
         self.filters = Filter(self.left_pane, map_object)
         self.canvas = Display(self.canvas_pane, data)
-        self.filters.set_control_canvas(self.canvas.canvas)
+        self.filters.set_control_canvas(self.canvas)
 
 
 app = App(root, map_object)
