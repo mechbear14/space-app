@@ -29,6 +29,8 @@ class BuoyMark:
         self.name = xml.get("name")
         self.x = ((self.lon + 180) / 360 * map_image.width) % map_image.width
         self.y = ((90 - self.lat) / 180 * map_image.height + 66.7) % map_image.height
+        self.scaled_x = self.x
+        self.scaled_y = self.y
 
     def render(self, canvas, ref, x, y, scale):
         canvas.scale(ref, self.x + x, self.y + y, scale, scale)
@@ -48,19 +50,38 @@ class Map:
         global_offset_x = self.background_map.width / 2
         global_offset_y = self.background_map.height / 2
         self.image_ref = canvas.create_image((global_offset_x, global_offset_y), image=self.background_map.image_tk)
-        for b in self.buoys:
-            self.buoys_ref.append(canvas.create_oval((b.x - 5, b.y - 5, b.x + 5, b.y + 5), fill="yellow"))
-        print(self.buoys_ref)
+        # for b in self.buoys:
+        #     self.buoys_ref.append(canvas.create_oval((b.x - 5, b.y - 5, b.x + 5, b.y + 5), fill="yellow"))
+        # print(self.buoys_ref)
 
     def move(self, canvas, dx, dy):
         canvas.coords(self.image_ref, (self.background_map.width / 2 + dx, self.background_map.height / 2 + dy))
         for id, b in enumerate(self.buoys_ref):
-            canvas.coords(b, (self.buoys[id].x - 5 + dx, self.buoys[id].y - 5 + dy, self.buoys[id].x + 5 + dx, self.buoys[id].y + 5 + dy))
+            canvas.coords(b, (self.buoys[id].scaled_x - 5 + dx, self.buoys[id].scaled_y - 5 + dy, self.buoys[id].scaled_x + 5 + dx, self.buoys[id].scaled_y + 5 + dy))
 
     def scale(self, canvas, mx, my, s):
         self.background_map.resize(s)
         self.route_map.resize(s)
-        # print(self.image_ref)
         canvas.itemconfig(self.image_ref, image=self.background_map.image_tk)
-        # for id, b in enumerate(self.buoys_ref):
-        #     canvas.scale(self.buoys[id])
+        for id, b in enumerate(self.buoys_ref):
+            x = self.buoys[id].x
+            y = self.buoys[id].y
+            self.buoys[id].scaled_x = s * (x - mx) + mx
+            self.buoys[id].scaled_y = s * (y - my) + my
+            canvas.coords(self.buoys_ref[id], (self.buoys[id].scaled_x - 5, self.buoys[id].scaled_y - 5,
+                                               self.buoys[id].scaled_x + 5, self.buoys[id].scaled_y + 5))
+
+    def set_image(self, image, canvas):
+        if image == "route":
+            canvas.itemconfig(self.image_ref, image=self.route_map.image_tk)
+        elif image == "map":
+            canvas.itemconfig(self.image_ref, image=self.background_map.image_tk)
+
+    def set_buoys(self, canvas, show):
+        if show:
+            for b in self.buoys:
+                self.buoys_ref.append(canvas.create_oval((b.x - 5, b.y - 5, b.x + 5, b.y + 5), fill="yellow"))
+        else:
+            for b in self.buoys_ref:
+                canvas.delete(b)
+            self.buoys_ref.clear()
