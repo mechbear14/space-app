@@ -14,6 +14,7 @@ class App:
         self.scale = 30
         self.map_object = map_object
         self.map_object.render(self.canvas)
+        self.map_object.scale(self.canvas, 0, 0, self.scale / 10)
 
         self.canvas.bind("<Button-1>", self.on_mouse_down)
         self.canvas.bind("<Button-4>", self.on_scroll_up)

@@ -5,9 +5,10 @@ from tkinter import BooleanVar
 class MapImage:
     def __init__(self, image_path):
         self.image = Image.open(image_path)
+        self.scaled_image = self.image
         self.width = self.image.width
         self.height = self.image.height
-        self.image_tk = ImageTk.PhotoImage(self.image)
+        self.image_tk = ImageTk.PhotoImage(self.scaled_image)
 
     def render(self, canvas, image_ref, x, y, scale):
         self.image = self.image.resize((self.width * scale, self.height * scale), Image.ANTIALIAS)
@@ -15,7 +16,8 @@ class MapImage:
         canvas.coords(image_ref, (x, y))
 
     def resize(self, scale):
-        self.image = self.image.resize((round(self.image.width * scale), round(self.image.height * scale)))
+        self.scaled_image = self.image.resize((round(self.image.width * scale), round(self.image.height * scale)))
+        self.image_tk = ImageTk.PhotoImage(self.scaled_image)
 
 
 class BuoyMark:
@@ -60,3 +62,5 @@ class Map:
         self.route_map.resize(s)
         # print(self.image_ref)
         canvas.itemconfig(self.image_ref, image=self.background_map.image_tk)
+        # for id, b in enumerate(self.buoys_ref):
+        #     canvas.scale(self.buoys[id])
