@@ -19,9 +19,6 @@ class Display:
         self.canvas.bind("<Button-4>", self.on_scroll_up)
         self.canvas.bind("<Button-5>", self.on_scroll_down)
 
-        # Test
-        # self.circle = self.canvas.create_oval((460, 250, 500, 290), fill="yellow")
-
     def on_mouse_down(self, event):
         self.dragging = True
         self.canvas.bind("<B1-Motion>", self.on_mouse_move)
