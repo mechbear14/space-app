@@ -3,7 +3,7 @@ from tkinter import*
 from PIL import Image
 import tkinter
 import start
-import app
+import components
 import sys
 
 
