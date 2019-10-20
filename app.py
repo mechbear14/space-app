@@ -85,10 +85,16 @@ def start():
     buoy_list = list(map(lambda b: FilteredXML(b), buoy_soup))
 
     root = tk.Tk()
-    app = App(root, buoy_list)
-    root.title("Bear's space app")
+# <<<<<<< HEAD
+#     app = App(root, buoy_list)
+#     root.title("Bear's space app")
+# =======
+#     app = App(root)
+#     root.title("IOS - Internet over the Oceans")
+# >>>>>>> b1da2dd4948f03c1435ef86728ef93af195e83ea
     root.update()
     root.mainloop()
 
 
-start()
+if __name__ =="__main__":
+    start()

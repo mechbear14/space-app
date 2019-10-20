@@ -8,7 +8,7 @@ import os
  
 def register():
     global register_screen
-    register_screen = Toplevel(main_screen)
+    register_screen = Tk()
     register_screen.title("Register")
     register_screen.geometry("250x200")
  
@@ -37,7 +37,7 @@ def register():
  
 def login():
     global login_screen
-    login_screen = Toplevel(main_screen)
+    login_screen = Tk()
     login_screen.title("Login")
     login_screen.geometry("250x220")
     Label(login_screen, text="Please enter details below to login").pack()
@@ -168,5 +168,5 @@ def main_account_screen():
  
     main_screen.mainloop()
  
- 
-main_account_screen()
+if __name__ =="__main__":
+    main_account_screen()
