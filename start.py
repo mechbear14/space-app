@@ -1,7 +1,7 @@
 #import modules
  
 from tkinter import *
-import app
+import components
 import os
  
 # Designing window for registration
@@ -110,7 +110,7 @@ def login_sucess():
     #password_not_recog_screen.destroy()
     #user_not_found_screen.destroy()
     destroy_all()
-    app.start()
+    components.start()
  
  
 # Designing popup for login invalid password

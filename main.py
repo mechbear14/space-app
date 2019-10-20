@@ -1,9 +1,9 @@
 from tkinter import Tk, Label, PhotoImage
 from tkinter import*
 from PIL import Image
+import components
 import tkinter
 import start
-import app
 import sys
 
 
@@ -25,7 +25,7 @@ def LogIn():
     start.login()
 def code():
     window.destroy()
-    app.start()
+    components.start()
 
 #creating the rooot menu
 
