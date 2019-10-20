@@ -80,19 +80,19 @@ class App:
 
 def start():
     r = requests.get("https://ndbc.noaa.gov/activestations.xml")
-    soup = BeautifulSoup(r.text)
+    soup = BeautifulSoup(r.text, "lxml")
     buoy_soup = soup.find_all(type="buoy")
     buoy_list = list(map(lambda b: FilteredXML(b), buoy_soup))
 
     root = tk.Tk()
 # <<<<<<< HEAD
-#     app = App(root, buoy_list)
-#     root.title("Bear's space app")
+    app = App(root, buoy_list)
+    root.title("Bear's space app")
 # =======
 #     app = App(root)
 #     root.title("IOS - Internet over the Oceans")
 # >>>>>>> b1da2dd4948f03c1435ef86728ef93af195e83ea
-    root.update()
+#     root.update()
     root.mainloop()
 
 
