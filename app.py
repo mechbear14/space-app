@@ -94,7 +94,7 @@ class App:
 def start():
     root = tk.Tk()
     app = App(root)
-    root.title("Bear's space app")
+    root.title("IOS - Internet over the Oceans")
     root.update()
     root.mainloop()
 
