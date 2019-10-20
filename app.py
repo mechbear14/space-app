@@ -95,5 +95,5 @@ def start():
     root.update()
     root.mainloop()
 
-
-start()
+if __name__ =="__main__":
+    start()
